@@ -2,17 +2,17 @@ import os
 
 from pymongo import MongoClient
 
+mongo_uri = os.environ.get("MONGO_URI")
+db_name   = os.environ.get("DB_NAME")
+
+client = MongoClient(mongo_uri)
+db = client[db_name]
+routers = db["routers"]
+
 
 def get_router_info():
-    mongo_uri  = os.environ.get("MONGO_URI")
-    db_name    = os.environ.get("DB_NAME")
+    return list(routers.find())
 
-    client = MongoClient(mongo_uri)
-    db = client[db_name]
-    routers = db["routers"]
 
-    router_data = routers.find()
-    return router_data
-
-if __name__=='__main__':
-    get_router_info()
+if __name__ == '__main__':
+    print(get_router_info())
